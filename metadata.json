@@ -1,0 +1,6 @@
+{
+  "name": "AURA Studio - Lash & Ink Atelier",
+  "description": "Fashionable minimalist booking system for eyelash extensions, lash lifts, and fine-line tattoos with AI style curation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
