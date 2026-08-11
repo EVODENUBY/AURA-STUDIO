@@ -9,9 +9,7 @@ import apiRoutes from './routes';
 import Logger, { requestLogger } from './utils/logger';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
-const isDev = process.env.NODE_ENV !== 'production';
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-const corsOrigin = isDev ? frontendUrl : process.env.FRONTEND_URL || '*';
+const corsOrigin = process.env.FRONTEND_URL || '*';
 
 const app = express();
 
