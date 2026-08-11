@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Service, Artist, Booking, CategoryType, LashSpecs, TattooSpecs } from '../types';
 import { Calendar as CalendarIcon, Clock, CheckCircle2, User, Mail, Phone, FileText, AlertCircle, Sparkles, ChevronRight, ChevronLeft, ShieldCheck, Download, QrCode, MessageSquare, Smartphone, Send, BellRing, RefreshCw } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { apiUrl } from '../api';
 
 interface BookingWizardProps {
   isOpen: boolean;
@@ -109,7 +110,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
   useEffect(() => {
     if (!selectedArtist || !appointmentDate) return;
     setLoadingAvailability(true);
-    fetch(`/api/availability?artistId=${selectedArtist.id}&date=${appointmentDate}`)
+    fetch(apiUrl(`/api/availability?artistId=${selectedArtist.id}&date=${appointmentDate}`))
       .then(res => res.json())
       .then(data => {
         setAvailableHours(data.availableHours || []);
@@ -149,7 +150,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     };
 
     try {
-      const res = await fetch('/api/bookings', {
+      const res = await fetch(apiUrl('/api/bookings'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

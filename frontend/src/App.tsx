@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CategoryType, Service, Artist, Booking, Testimonial, BeforeAfterItem } from './types';
 import { INITIAL_SERVICES, INITIAL_ARTISTS, INITIAL_BOOKINGS, INITIAL_TESTIMONIALS, INITIAL_BEFORE_AFTER } from './data/mockData';
+import { apiUrl } from './api';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ServicesCatalog } from './components/ServicesCatalog';
@@ -43,35 +44,35 @@ function AppContent() {
 
   // Load initial data from server API
   useEffect(() => {
-    fetch('/api/services')
+    fetch(apiUrl('/api/services'))
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) setServices(data);
       })
       .catch(err => console.log('Using initial services fallback', err));
 
-    fetch('/api/artists')
+    fetch(apiUrl('/api/artists'))
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) setArtists(data);
       })
       .catch(err => console.log('Using initial artists fallback', err));
 
-     fetch('/api/bookings')
+     fetch(apiUrl('/api/bookings'))
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setBookings(data);
       })
       .catch(err => console.log('Using initial bookings fallback', err));
 
-     fetch('/api/testimonials')
+     fetch(apiUrl('/api/testimonials'))
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) setTestimonials(data);
       })
       .catch(err => console.log('Using initial testimonials fallback', err));
 
-     fetch('/api/before-after')
+     fetch(apiUrl('/api/before-after'))
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) setBeforeAfterItems(data);
@@ -110,7 +111,7 @@ function AppContent() {
 
   // Handle booking cancellation
   const handleCancelBooking = (bookingId: string) => {
-    fetch(`/api/bookings/${bookingId}`, { method: 'DELETE' })
+    fetch(apiUrl(`/api/bookings/${bookingId}`), { method: 'DELETE' })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -123,7 +124,7 @@ function AppContent() {
   // Admin Authentication Check
   const handleAdminAuthSubmit = async (pinInput: string): Promise<boolean> => {
     try {
-      const res = await fetch('/api/admin/verify-pin', {
+      const res = await fetch(apiUrl('/api/admin/verify-pin'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: pinInput })
@@ -149,7 +150,7 @@ function AppContent() {
 
   // Handle status update in admin
   const handleUpdateBookingStatus = (id: string, status: 'confirmed' | 'completed' | 'cancelled') => {
-    fetch(`/api/bookings/${id}`, {
+    fetch(apiUrl(`/api/bookings/${id}`), {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })

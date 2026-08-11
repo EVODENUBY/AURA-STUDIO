@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CategoryType, Service, Artist, AiConsultationResponse } from '../types';
+import { apiUrl } from '../api';
 import { Sparkles, Loader2, CheckCircle2, ArrowRight, Eye, Feather, RefreshCw, Star } from 'lucide-react';
 
 interface AiConsultantModalProps {
@@ -36,7 +37,7 @@ export const AiConsultantModal: React.FC<AiConsultantModalProps> = ({
     setResult(null);
 
     try {
-      const res = await fetch('/api/consultation', {
+      const res = await fetch(apiUrl('/api/consultation'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
