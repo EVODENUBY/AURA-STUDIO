@@ -13,7 +13,6 @@
     "noEmit": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["../../shared/*"]

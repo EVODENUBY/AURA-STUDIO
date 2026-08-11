@@ -11,6 +11,7 @@
     "frontend": "npm --prefix frontend run dev",
     "backend": "npm --prefix backend run dev",
     "seed": "npm --prefix backend run seed",
+    "start": "node backend/dist/server.cjs",
     "build": "npm-run-all build:frontend build:backend",
     "build:frontend": "npm --prefix frontend run build",
     "build:backend": "npm --prefix backend run build",

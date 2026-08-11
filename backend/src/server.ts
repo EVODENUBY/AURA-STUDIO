@@ -40,7 +40,7 @@ app.use('/api', apiRoutes);
 
 // Production static file serving
 if (process.env.NODE_ENV === 'production') {
-  const distPath = path.join(process.cwd(), 'frontend/dist');
+  const distPath = path.resolve(__dirname, '../../frontend/dist');
   app.use(express.static(distPath));
   app.get('*', (_req: Request, res: Response) => {
     res.sendFile(path.join(distPath, 'index.html'));
