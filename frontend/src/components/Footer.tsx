@@ -107,11 +107,11 @@ export const Footer: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-[#FAF9F6] shrink-0" />
-              <span>+250 788 000 782 / +250 789 123 456</span>
+              <span>+250 791 783 308 / +250 725 392 482</span>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-[#FAF9F6] shrink-0" />
-              <span>concierge@aura-atelier.rw</span>
+              <span>concierge@aurastudio.rw</span>
             </div>
           </div>
         </div>
@@ -123,7 +123,7 @@ export const Footer: React.FC = () => {
         <div className="flex items-center gap-6">
           <span>Terms & Deposit Policy</span>
           <span>•</span>
-          <span>Privacy Protocol</span>
+          <span><a href="mailto:evodemuyisingize@gmail.com" className="text-[#FAF9F6] hover:underline">Contact Support</a></span>
         </div>
       </div>
     </footer>

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { GoogleGenAI, Type } from '@google/genai';
 import { AiConsultationRequest, AiConsultationResponse } from '@shared/types';
+import Logger from '../utils/logger';
 
 const router = Router();
 
@@ -45,10 +46,19 @@ function getFallbackResponse(category: string, vibeDescription?: string, eyeShap
 router.post('/', async (req: Request, res: Response) => {
   const { category, vibeDescription, eyeShapeOrPlacement, skinOrLashSensitivity, preferredTone }: AiConsultationRequest = req.body;
 
+  Logger.info('AI consultation request received', {
+    category,
+    vibeDescription,
+    eyeShapeOrPlacement,
+    skinOrLashSensitivity,
+    preferredTone,
+  });
+
   const fallbackResponse = getFallbackResponse(category, vibeDescription, eyeShapeOrPlacement);
 
   const ai = getGenAI();
   if (!ai) {
+    Logger.warn('Gemini API key not configured, using fallback response', { category });
     return res.json(fallbackResponse);
   }
 
@@ -79,6 +89,12 @@ Available Services:
 - "tattoo-botanical-ornamental": Botanical & Ornamental Art
 - "tattoo-custom-flash": Curated Atelier Flash Piece
 `;
+
+    Logger.info('AI model invocation starting', {
+      model: 'gemini-3.6-flash',
+      category,
+      vibeDescription,
+    });
 
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
@@ -116,12 +132,23 @@ Available Services:
 
     if (response.text) {
       const parsed: AiConsultationResponse = JSON.parse(response.text.trim());
+      Logger.info('AI model response received', {
+        model: 'gemini-3.6-flash',
+        recommendationTitle: parsed.recommendationTitle,
+        recommendedArtistId: parsed.recommendedArtistId,
+        recommendedServiceId: parsed.recommendedServiceId,
+      });
       return res.json(parsed);
     } else {
+      Logger.warn('AI model returned empty response, using fallback');
       return res.json(fallbackResponse);
     }
   } catch (err: any) {
-    console.error('Gemini API Error in consultation:', err);
+    Logger.error('Gemini API error during consultation', {
+      category,
+      error: err.message || String(err),
+      stack: err.stack,
+    });
     return res.json(fallbackResponse);
   }
 });
