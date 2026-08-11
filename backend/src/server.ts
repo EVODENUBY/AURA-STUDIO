@@ -9,7 +9,7 @@ import apiRoutes from './routes';
 import Logger, { requestLogger } from './utils/logger';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
-const corsOrigin = process.env.FRONTEND_URL || '*';
+const corsOrigin = (process.env.FRONTEND_URL || '*').replace(/\/+$/, '');
 
 const app = express();
 
